@@ -1,0 +1,499 @@
+%!TEX TS-program = lualatex
+%% vim: set fenc=utf-8 ts=1 sw=0 sts=0 sr et si tw=0 fdm=marker fmr=<<<,>>>:
+%%
+%% Curriculum Vitae
+%% Andrei-Robert Dobrete
+%%
+
+% <<< Document class
+% https://ctan.org/pkg/moderncv
+% https://mirrors.nxthost.com/ctan/macros/latex/contrib/moderncv/manual/moderncv_userguide.pdf
+\documentclass[
+ a4paper, % paper size of 297 × 210 mm
+ 11pt,    % font size of 11pt
+ roman    % font style of `serif`
+]{moderncv}
+% >>>
+
+% <<< Packages
+\usepackage{expl3}                   % LaTeX3 API
+\usepackage[english,romanian]{babel} % multi-language support for LaTeX
+\usepackage[margin=2cm]{geometry}    % easy document dimensions
+\usepackage{multicol}                % multiple columns
+\usepackage{xfakebold}               % fake a font to have bold characters
+\usepackage{xstring}                 % string manipulation for LaTeX
+
+\usepackage{hyperref}                         % hypertext in LaTeX
+\PassOptionsToPackage{hyphens}{url}           % URLs will break at hyphens
+\PassOptionsToPackage{naturalnames}{hyperref} % LaTeX-computed names for links
+\usepackage{xurl}                             % break URLs wherever
+\usepackage{bookmark}                         % better hyperref bookmarks
+% >>>
+
+% <<< Other settings
+% <<< Color definitions
+% https://github.com/catppuccin/catppuccin?tab=readme-ov-file#-palette
+\definecolor{catppuccin-latte-lavender}{HTML}{7287fd}
+\definecolor{catppuccin-latte-text}    {HTML}{4c4f69}
+\definecolor{catppuccin-latte-subtext1}{HTML}{5c5f77}
+% >>>
+
+% <<< ModernCV
+% <<< Style and colors
+\newcommand\Colors
+{
+ \colorlet{black} {catppuccin-latte-text}     % black text
+ \colorlet{color0}{catppuccin-latte-subtext1} % text
+ \colorlet{color1}{catppuccin-latte-lavender} % accent
+ \colorlet{color2}{color0}                    % title
+}
+
+\moderncvcolor{blue}\Colors    % CV color (black, blue, burgundy, cerulean, green, grey, orange, purple, red)
+\moderncvstyle{classic}\Colors % CV style (casual, classic, banking, oldstyle, fancy)
+\let\Colors\undefined
+% >>>
+
+% <<< Socials symbols and colors
+\renewcommand\mobilephonesymbol{{\color{mobilephone}\small\faPhone} {\color{whatsapp}\small\faWhatsapp}~}
+\renewcommand\emailsymbol      {{\color{email}\small\faEnvelope}~}
+
+\definecolor{address}    {HTML}{000000}
+\definecolor{born}       {HTML}{000000}
+\definecolor{mobilephone}{HTML}{000000}
+\definecolor{whatsapp}   {HTML}{25D366}
+\definecolor{email}      {HTML}{6D4AFF}
+\definecolor{linkedin}   {HTML}{0077B5}
+\definecolor{github}     {HTML}{000000}
+\definecolor{gitlab}     {HTML}{FC6D26}
+% >>>
+
+% <<< Change style of `\cventry`
+% New usage: \cventry{<year>}{<title>}{<employer>}{<website>}{<city>}{<country>}{<description>}
+\renewcommand*\cventry[8][.25em]{%
+ \cvitem[#1]{\scriptsize #2}%                                                year
+ {%
+  {\color{color1}\vspace{-.3cm}\bfseries#3}%                                 title
+  \ifthenelse{\equal{#4}{}}{}{\newline {\slshape\textebf{#4}}}%              employer
+  \ifthenelse{\equal{#5}{}}{}{ | \inserturl{#5}}%                            website
+  \ifthenelse{\equal{#6}{}}{}{\newline {\textebf{City:}} #6}%                city
+  \ifthenelse{\equal{#7}{}}{}{ | {\textebf{Country:}} #7}%                   country
+  \strut%
+  \ifx&#8&%
+  \else{\newline{}\begin{minipage}[t]{\linewidth}\small#8\end{minipage}}\fi% description
+ }
+}
+% >>>
+
+% <<< Lengths
+\setlength\hintscolumnwidth{3.3cm}
+% >>>
+% >>>
+
+% <<< Hyperref
+\AtEndPreamble
+{
+ \makeatletter
+ \hypersetup{
+   breaklinks=true,
+ }
+ \makeatother
+}
+% >>>
+% >>>
+
+% <<< Custom commands
+% <<< Insert URL
+\ExplSyntaxOn
+\NewDocumentCommand\inserturl{m}
+{
+ \tl_set:Nn \l__inserturl_url_tl {#1}
+ \regex_replace_all:nnN {.*:\/\/(?:www.)?(.*[^\/])\/?} {\1} \l__inserturl_url_tl
+ \inserturl_print:nV { #1 } \l__inserturl_url_tl
+}
+
+\tl_new:N \l__inserturl_url_tl
+\cs_new_protected:Nn \inserturl_print:nn
+{
+ \textebf[0.1]{\href{#1}{\nolinkurl{#2}}}
+}
+\cs_generate_variant:Nn \inserturl_print:nn { nV }
+\ExplSyntaxOff
+% >>>
+
+% <<< Important text
+\newcommand\textimp[1]{\begingroup\color{black}\texttt{#1}\endgroup}
+% >>>
+
+% <<< Extrabold
+\newcommand\textebf[2][0.2]{\begingroup\color{black}\bfseries\setBold[#1]#2\unsetBold\endgroup}
+% >>>
+% >>>
+
+% <<< .env file
+% <<< Default values
+\def\dotEnvEmail{}
+\def\dotEnvPhone{}
+% >>>
+
+% <<< Import file
+\IfFileExists{.env.tex}
+{\input{.env.tex}}
+{\GenericWarning{}{LaTeX Warning: CV: .env: No .env file found!}}
+% >>>
+
+% <<< Check values and update jobname
+\IfStrEq{\dotEnvEmail}{}
+{
+ \GenericWarning{}{LaTeX Warning: CV: .env: `dotEnvEmail` is empty!}
+ \IfSubStr{\jobname}{\detokenize{noemail}}{}{\edef\jobname{\jobname\detokenize{-noemail}}}
+}
+{}
+
+\IfStrEq{\dotEnvPhone}{}
+{
+ \GenericWarning{}{LaTeX Warning: CV: .env: `dotEnvPhone` is empty!}
+ \IfSubStr{\jobname}{\detokenize{nophone}}{}{\edef\jobname{\jobname\detokenize{-nophone}}}
+}
+{}
+% >>>
+% >>>
+
+% <<< Basic document info
+\name{Andrei}{Dobrete}
+\title{Curriculum Vitae}
+
+\IfSubStr{\jobname}{\detokenize{noemail}}{}{\email{\dotEnvEmail}}
+\IfSubStr{\jobname}{\detokenize{nophone}}{}{\phone[mobile]{\dotEnvPhone}}
+\IfSubStr{\jobname}{\detokenize{nophoto}}{}{\photo[2cm][2px]{img/me}}
+
+\social[linkedin]{Andy3153}
+\social[github]  {Andy3153}
+\social[gitlab]  {Andy3153}
+% >>>
+
+\begin{document}
+ \maketitle % Generate title
+
+ % <<< Document content
+ % <<< Personal Details
+ \section{Personal Details}
+ \cvitem{Birth}{02/06/2003, Râmnicu Vâlcea, România}
+ \cvitem{Gender}{Male}
+ \cvitem{Nationality}{Romanian}
+ % >>>
+
+ % <<< Work Experience
+ \section{Work Experience}
+ % <<< IMSAT S.A.
+ \cventry
+  {07/07/2025 – 14/08/2025}
+  {Automation/Electrical Engineer -- internship}
+  {IMSAT S.A.}
+  {https://imsat.ro}
+  {Bucharest}
+  {Romania}
+  {
+   \begin{itemize}
+    \item going to the Ford Otosan plant in Craiova to implement changes on the electrical side, as well as on the programming side of the conveyors for mounting door accessories
+    \item using PLC software like \textimp{RSLogix 5000} for the \textimp{Allen Bradley} PLCs, \textimp{Factory Talk View Studio} for the \textimp{PanelView Plus 1000} HMIs and \textimp{Connected Components Workbench}
+    \item using several 3D modeling programs, like \textimp{Siemens NX} and \textimp{CATIA V5}
+   \end{itemize}
+  }
+ % >>>
+
+ % <<< EVASTAFF
+ \cventry
+  {25/06/2024 – 22/08/2024}
+  {Web Developer -- internship}
+  {EVASTAFF}
+  {https://evastaff.ro}
+  {Bucharest}
+  {Romania}
+  {
+   \begin{itemize}
+    \item implementing \textimp{Wordpress} and \textimp{Shopify} (CMS) platforms on dedicated hosting, \textimp{CPanel} usage
+    \item developing online stores, automating selling process, store webpage, shopping cart page, product pages, check-out page
+    \item \textimp{CSS}, \textimp{PHP}, \textimp{SQL} changes, interfaces, integrations, APIs
+   \end{itemize}
+  }
+ % >>>
+ % >>>
+
+ % <<< Education and Training
+ \section{Education and Training}
+ % <<< Cisco Certified Network Associate
+ \cventry
+  {14/03/2025 - 07/2026}
+  {Cisco Certified Network Associate}
+  {Hackademy}
+  {https://hackademy7.wordpress.com}
+  {Bucharest}
+  {Romania}
+  {
+   \begin{itemize}
+    \item I currently only completed the first semester of CCNA.
+   \end{itemize}
+  }
+ % >>>
+
+ % <<< Robotics Engineer
+ \cventry
+  {10/2022 – 07/2026}
+  {Robotics Engineer}
+  {Universitatea Politehnica București -- Facultatea de Inginerie Industrială și Robotică}
+  {https://upb.ro}
+  {Bucharest}
+  {Romania}
+  {}
+ % >>>
+
+ % <<< High School Diploma
+ \cventry
+  {09/2018 – 07/2022}
+  {High School Diploma -- Mathematics and Computer Science}
+  {Colegiul Național "Alexandru Lahovari"}
+  {https://www.lahovari.com/}
+  {Râmnicu Vâlcea}
+  {Romania}
+  {}
+ % >>>
+ % >>>
+
+ % <<< Language Skills
+ \section{Language Skills}
+ % <<< Romanian
+ \cvitem
+  {Romanian}
+  {Native Language}
+ % >>>
+
+ % <<< English
+ \cvlanguage
+  {English}
+  {%
+   \begin{minipage}[t]{\linewidth}
+    \vspace{-.3cm}
+    \textebf{Listening:}          C1 |
+    \textebf{Reading:}            C2 |
+    \textebf{Writing:}            C2 \newline
+    \textebf{Spoken Production:}  C2 |
+    \textebf{Spoken Interaction:} C1
+   \end{minipage}
+  }
+  {}
+ % >>>
+ % >>>
+
+ % <<< Driving License
+ \section{Driving License}
+ \cvlanguage
+  {Cars}
+  {B1 | B}
+  {31/08/2021 -- 31/08/2031}
+
+ \cvlanguage
+  {Motorbikes}
+  {AM}
+  {31/08/2021 -- 31/08/2031}
+ % >>>
+
+ % <<< Digital Skills
+ \section{Digital Skills}
+ % <<< Linux/Unix
+ \cvitem
+  {Linux/Unix}
+  {
+   \begin{minipage}[t]{\linewidth}
+    \begin{multicols}{3}
+     \begin{itemize}
+      \item System Administration
+      \item Shell Scripting
+      \item Command Line
+      \item Docker/Podman
+      \item Systemd
+      \item QEMU/KVM
+      \item NixOS
+     \end{itemize}
+    \end{multicols}
+   \end{minipage}
+  }
+ % >>>
+
+ % <<< Programming
+ \cvitem
+  {Programming}
+  {
+   \begin{minipage}[t]{\linewidth}
+    \begin{multicols}{3}
+     \begin{itemize}
+      \item C
+      \item C++
+      \item POSIX Shell (bash/sh)
+      \item Nix Language
+      \item Python
+      \item Lua
+      \item Arduino
+      \item Java
+      \item Ladder
+     \end{itemize}
+    \end{multicols}
+   \end{minipage}
+  }
+ % >>>
+
+ % <<< 3D Modeling
+ \cvitem
+  {3D Modeling}
+  {
+   \begin{minipage}[t]{\linewidth}
+    \begin{multicols}{3}
+     \begin{itemize}
+      \item Siemens NX
+      \item CATIA V5
+      \item AutoCAD
+      \item Blender
+      \item FreeCAD
+     \end{itemize}
+    \end{multicols}
+   \end{minipage}
+  }
+ % >>>
+
+ % <<< Office
+ \cvitem
+  {Office}
+  {
+   \begin{minipage}[t]{\linewidth}
+    \begin{multicols}{2}
+     \begin{itemize}
+      \item \LaTeX
+      \item Microsoft Word       / LibreOffice Writer
+      \item Microsoft Excel      / LibreOffice Calc
+      \item Microsoft PowerPoint / LibreOffice Impress
+      \item Microsoft Project
+     \end{itemize}
+    \end{multicols}
+   \end{minipage}
+  }
+ % >>>
+ % >>>
+
+ % <<< Volunteering
+ \section{Volunteering}
+ % <<< National Red Cross Society Râmnicu Vâlcea
+ \cventry
+  {07/2019 -- 12/2022}
+  {National Red Cross Society Râmnicu Vâlcea -- Member}
+  {}
+  {https://crucearosievalcea.ro}
+  {Râmnicu Vâlcea}
+  {Romania}
+  {}
+ % >>>
+
+ % <<< Volunteers Polytechnic Bucharest -- Member
+ \cventry
+  {03/2024 -- Current}
+  {Volunteers Polytechnic Bucharest -- Member}
+  {}
+  {https://unstpb.ro}
+  {Bucharest}
+  {Romania}
+  {}
+ % >>>
+
+ % <<< The Student Organization of the Faculty of Industrial Engineering and Robotics -- Member
+ \cventry
+  {10/2022 -- 06/2023}
+  {The Student Organization of the Faculty of Industrial Engineering and Robotics -- Member}
+  {}
+  {https://osfiir.ro}
+  {Bucharest}
+  {Romania}
+  {}
+ % >>>
+ % >>>
+
+ % <<< Projects
+ \section{Projects}
+ % <<< First Tech Challenge
+ \subsection{First Tech Challenge}
+ \cvitem{}
+ {
+  \begin{minipage}[t]{\linewidth}
+   I participated in the \textimp{First Tech Challenge} competition, being a member of the BroBots team (RO142 | 19088) in the 2019 -- 2022 period. I was mainly on the programming side of the team (using \textimp{Java}), but I also participated a lot on the mechanics and designing sides.
+  \end{minipage}
+ }
+ % >>>
+
+ % <<< Other things on my GitHub page
+ \subsection{Other things on my GitHub page}
+ \cvitem{}
+ {
+  \begin{minipage}[t]{\linewidth}
+   I maintain a couple of GitHub repositories, hosting several random projects like the \textimp{NixOS} configurations for my machines, \textimp{Nix} derivations, \textimp{Docker Compose} files and \textimp{Docker images} I run on my server, random \textimp{shell}/\textimp{Python} scripts I use on my system on the daily, configurations for many of the programs on my computer, \textbf{\LaTeX}\ templates or forks of other projects with changes waiting to be merged.
+  \end{minipage}
+ }
+ % >>>
+ % >>>
+
+ % <<< Hobbies and Interests
+ \section{Hobbies and Interests}
+ % <<< Linux
+ \subsection{Linux}
+ \cvitem{}
+ {
+  \begin{minipage}[t]{\linewidth}
+   I've been daily driving and tinkering with Linux since 2017 and have gained a lot of experience with things from the inner workings of distros to servers and networks, scripting, troubleshooting, containers and more.
+   \newline
+   What I like about it is how broad of a choice you have with doing anything. It's safe to assume that if you don't like how something works, or if you want to learn something new, you can replace anything.
+  \end{minipage}
+ }
+ % >>>
+
+ % <<< Programming/scripting/configuring
+ \subsection{Programming/scripting/configuring}
+ \cvitem{}
+ {
+  \begin{minipage}[t]{\linewidth}
+   I always occupy myself with some project related to these three things, be it writing a Docker Compose file with customized Docker images for my server at home, automate some random task with shell scripts like file conversion, partitioning, some Docker image initialization, custom bulk file renaming to make my life easier, perfecting the configuration to declaratively configure every program that goes on my computer with Nix and NixOS, writing a Python script to fetch the weather in the status bar for my window manager, spending months to get the configuration and plugins for my shell and text editor/IDE just right. I always find something to do to keep my mind active.
+  \end{minipage}
+ }
+ % >>>
+
+ % <<< Personal development
+ \subsection{Personal development}
+ \cvitem{}
+ {
+  \begin{minipage}[t]{\linewidth}
+   In my free time, I also really like spending time in places like wikis, forums, mailing lists, GitHub issues etc. either by just reading what's going on in there, or also by actively participating. For example, every time I encounter a problem or a bug with a program, or I don't know how to do something in a program and I can't already find the solution to my problem or a bug report filed somewhere, I post it by myself, and I like helping the people responsible with finding a fix. Also, when I know how to solve someone else's problem, I'm happy to join the conversation and see if I can help.
+   \newline
+ I've written pages for the Arch Linux wiki and I made numerous forum posts and GitHub issues on projects like NixOS, Hyprland and others. I've also made a couple of contributions on GitHub for NixOS and other projects.
+  \end{minipage}
+ }
+ % >>>
+
+ % <<< Retro computers/electronics
+ \subsection{Retro computers/electronics}
+ \cvitem{}
+ {
+  \begin{minipage}[t]{\linewidth}
+   I've spent way too many hours of my life ever since I was 13 watching people repair, restore, diagnose, showcase and talk about old computers, consoles and various other electronics.
+   \newline
+   What I like about this sort of electronics is how they show simpler times, where computers in general were much less complex. You'll rarely see a person poking an oscilloscope probe at the sound chip of a new computer to diagnose something on the CPU bus or piggybacking a RAM chip on top of another to see if it's broken. Nowadays it's mostly about replacing broken stuff instead of repairing it, and today's specialists that struggle to repair often times use parts off of donor boards that failed QA tests that were smuggled out of the factory, with no guarantee that they work, and schematics that somehow got leaked. The new computer repair specialists are still fun to watch, but the older stuff is better content in my opinion just because of the depth older hardware allow people to go into when diagnosing and repairing.
+  \end{minipage}
+ }
+ % >>>
+
+ % <<< Tinkering with things around me
+ \subsection{Tinkering with things around me}
+ \cvitem{}
+ {
+  \begin{minipage}[t]{\linewidth}
+   I always love tinkering with a random Arduino project that I saw on the internet or came to my mind, and I'm never going to let something broken die without at least giving a shot at repairing it. I always try to repair my own things by myself, because what's the fun of letting someone else do it, letting you with no knowledge after?
+  \end{minipage}
+ }
+ % >>>
+ % >>>
+ % >>>
+\end{document}

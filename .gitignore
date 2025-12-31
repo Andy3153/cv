@@ -1,0 +1,17 @@
+**/*.bak
+**/*.old
+**/.directory
+**/*.aux
+**/*.fdb_latexmk
+**/*.fls
+**/*.latexrun.db
+**/*.latexrun.db.lock
+**/*.log
+**/*.out
+**/*.pyg
+**/*.synctex(busy)
+**/*.synctex.gz
+**/*.toc
+**/*.xdv
+
+**/*.env.tex
