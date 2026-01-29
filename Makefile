@@ -39,7 +39,7 @@ noemail-nophone-nophoto: cv-noemail-nophone-nophoto.pdf
 
 # {{{ Releases
 release: cv.tex
-	$(compilecmd) -jobname="cv-noemail-nophone-release" && rm cv.pdf || true && mv cv-noemail-nophone-release.pdf cv.pdf
+	$(compilecmd) -jobname="cv-noemail-nophone-release" && rm cv.tex.pdf || true && mv cv-noemail-nophone-release.pdf cv.tex.pdf
 # }}}
 
 # {{{ Cleaners
