@@ -75,8 +75,6 @@
   {\color{color1}\vspace{-.3cm}\bfseries#3}%                                 title
   \ifthenelse{\equal{#4}{}}{}{\newline {\slshape\textebf{#4}}}%              employer
   \ifthenelse{\equal{#5}{}}{}{ | \inserturl{#5}}%                            website
-  \ifthenelse{\equal{#6}{}}{}{\newline {\textebf{City:}} #6}%                city
-  \ifthenelse{\equal{#7}{}}{}{ | {\textebf{Country:}} #7}%                   country
   \strut%
   \ifx&#8&%
   \else{\newline{}\begin{minipage}[t]{\linewidth}\small#8\end{minipage}}\fi% description
