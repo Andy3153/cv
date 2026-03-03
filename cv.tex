@@ -32,23 +32,23 @@
 
 % <<< Other settings
 % <<< Color definitions
-% https://github.com/catppuccin/catppuccin?tab=readme-ov-file#-palette
-\definecolor{catppuccin-latte-lavender}{HTML}{7287fd}
-\definecolor{catppuccin-latte-text}    {HTML}{4c4f69}
-\definecolor{catppuccin-latte-subtext1}{HTML}{5c5f77}
+\definecolor{sad-black}                {HTML}{000000}
 % >>>
 
 % <<< ModernCV
 % <<< Style and colors
 \newcommand\Colors
 {
- \colorlet{black} {catppuccin-latte-text}     % black text
- \colorlet{color0}{catppuccin-latte-subtext1} % text
- \colorlet{color1}{catppuccin-latte-lavender} % accent
- \colorlet{color2}{color0}                    % title
+ \colorlet{black}         {sad-black} % black text
+ \colorlet{color0}        {sad-black} % text
+ \colorlet{color1}        {sad-black} % accent
+ \colorlet{color2}        {sad-black} % title
+ \colorlet{firstnamecolor}{sad-black}
+ \colorlet{lastnamecolor} {sad-black}
+ \colorlet{titlecolor}    {sad-black}
 }
 
-\moderncvcolor{blue}\Colors    % CV color (black, blue, burgundy, cerulean, green, grey, orange, purple, red)
+\moderncvcolor{black}\Colors   % CV color (black, blue, burgundy, cerulean, green, grey, orange, purple, red)
 \moderncvstyle{classic}\Colors % CV style (casual, classic, banking, oldstyle, fancy)
 \let\Colors\undefined
 % >>>
@@ -60,11 +60,11 @@
 \definecolor{address}    {HTML}{000000}
 \definecolor{born}       {HTML}{000000}
 \definecolor{mobilephone}{HTML}{000000}
-\definecolor{whatsapp}   {HTML}{25D366}
-\definecolor{email}      {HTML}{6D4AFF}
-\definecolor{linkedin}   {HTML}{0077B5}
+\definecolor{whatsapp}   {HTML}{000000}
+\definecolor{email}      {HTML}{000000}
+\definecolor{linkedin}   {HTML}{000000}
 \definecolor{github}     {HTML}{000000}
-\definecolor{gitlab}     {HTML}{FC6D26}
+\definecolor{gitlab}     {HTML}{000000}
 % >>>
 
 % <<< Change style of `\cventry`
