@@ -7,6 +7,8 @@
 cmd  = latexmk
 args = -lualatex -shell-escape -file-line-error -interaction=nonstopmode -use-make cv
 
+date = $(shell date +%Y%m%d)
+
 compilecmd   = $(cmd) $(args)
 
 softcleancmd = $(cmd) -c
@@ -40,6 +42,12 @@ noemail-nophone-nophoto: cv-noemail-nophone-nophoto.pdf
 # {{{ Releases
 release: cv.tex
 	$(compilecmd) -jobname="cv-noemail-nophone-release" && rm cv.tex.pdf || true && mv cv-noemail-nophone-release.pdf cv.tex.pdf
+
+release-linkedin: cv.tex
+	$(compilecmd) -jobname="cv-nophone-release" && rm cv.nophone.$(date).tex.pdf || true && mv cv-nophone-release.pdf cv.nophone.$(date).tex.pdf
+
+release-send: cv.tex
+	$(compilecmd) -jobname="cv-release" && rm cv.$(date).tex.pdf || true && mv cv-release.pdf cv.$(date).tex.pdf
 # }}}
 
 # {{{ Cleaners
