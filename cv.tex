@@ -116,7 +116,7 @@
 \tl_new:N \l__inserturl_url_tl
 \cs_new_protected:Nn \inserturl_print:nn
 {
- \textebf[0.1]{\href{#1}{\nolinkurl{#2}}}
+ \href{#1}{\nolinkurl{#2}}
 }
 \cs_generate_variant:Nn \inserturl_print:nn { nV }
 \ExplSyntaxOff
@@ -127,7 +127,7 @@
 % >>>
 
 % <<< Extrabold
-\newcommand\textebf[2][0.2]{\begingroup\color{black}\bfseries\setBold[#1]#2\unsetBold\endgroup}
+\newcommand\textebf[2][0.2]{\begingroup\bfseries#2\endgroup}
 % >>>
 % >>>
 
