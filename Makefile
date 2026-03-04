@@ -40,14 +40,19 @@ noemail-nophone-nophoto: cv-noemail-nophone-nophoto.pdf
 # }}}
 
 # {{{ Releases
-release: cv.tex
-	$(compilecmd) -jobname="cv-noemail-nophone-release" && rm cv.tex.pdf || true && mv cv-noemail-nophone-release.pdf cv.tex.pdf
-
-release-linkedin: cv.tex
+release-nophone: cv.tex
 	$(compilecmd) -jobname="cv-nophone-release" && rm cv.nophone.$(date).tex.pdf || true && mv cv-nophone-release.pdf cv.nophone.$(date).tex.pdf
+release-noemail-nophone: cv.tex
+	$(compilecmd) -jobname="cv-noemail-nophone-release" && rm cv.noemail-nophone.$(date).tex.pdf || true && mv cv-noemail-nophone-release.pdf cv.noemail-nophone.$(date).tex.pdf
+release-noemail-nophone-nophoto: cv.tex
+	$(compilecmd) -jobname="cv-noemail-nophone-nophoto-release" && rm cv.noemail-nophone-nophoto.$(date).tex.pdf || true && mv cv-noemail-nophone-nophoto-release.pdf cv.noemail-nophone-nophoto.$(date).tex.pdf
 
-release-send: cv.tex
-	$(compilecmd) -jobname="cv-release" && rm cv.$(date).tex.pdf || true && mv cv-release.pdf cv.$(date).tex.pdf
+release-git: cv.tex
+	$(compilecmd) -jobname="cv-noemail-nophone-release" && rm cv.tex.pdf || true && mv cv-noemail-nophone-release.pdf cv.tex.pdf
+release-linkedin: cv.tex
+	$(compilecmd) -jobname="cv-release" && rm cv.linkedin.$(date).tex.pdf || true && mv cv-release.pdf cv.linkedin.$(date).tex.pdf
+release-other: cv.tex
+	$(compilecmd) -jobname="cv-release" && rm cv.release.$(date).tex.pdf || true && mv cv-release.pdf cv.release.$(date).tex.pdf
 # }}}
 
 # {{{ Cleaners
