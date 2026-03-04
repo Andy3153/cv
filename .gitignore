@@ -15,5 +15,6 @@
 **/*.xdv
 
 **/*.env.tex
-**/cv.pdf
 **/TODO.md
+**/cv*pdf
+!**/cv.tex.pdf
