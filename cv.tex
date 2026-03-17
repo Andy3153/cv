@@ -5,6 +5,14 @@
 %% Andrei-Robert Dobrete
 %%
 
+% <<< Fix warnings
+% Package hyperref Warning: Option `pdfpagelabels' is turned off because \thepage is undefined.
+\PassOptionsToPackage{pdfpagelabels=false}{hyperref}
+
+% LaTeX Warning: Command \showhyphens   has changed.
+\let\CheckCommand\providecommand
+% >>>
+
 % <<< Document class
 % https://ctan.org/pkg/moderncv
 % https://mirrors.nxthost.com/ctan/macros/latex/contrib/moderncv/manual/moderncv_userguide.pdf
@@ -447,7 +455,7 @@
  \cvlanguage
   {English}
   {%
-   \begin{minipage}[t]{\linewidth}
+   \begin{minipage}[t]{.8\linewidth} % overfulls without `.8\linewidth`
     \vspace{-3mm}
     \textebf{Listening:}          C1 |
     \textebf{Reading:}            C2 |
