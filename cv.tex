@@ -18,7 +18,7 @@
 % <<< Packages
 \usepackage{expl3}                   % LaTeX3 API
 \usepackage[english,romanian]{babel} % multi-language support for LaTeX
-\usepackage[margin=2cm]{geometry}    % easy document dimensions
+\usepackage[margin=20mm]{geometry}   % easy document dimensions
 \usepackage{multicol}                % multiple columns
 \usepackage{xfakebold}               % fake a font to have bold characters
 \usepackage{xstring}                 % string manipulation for LaTeX
@@ -72,7 +72,7 @@
 \renewcommand*\cventry[8][.25em]{%
  \cvitem[#1]{\scriptsize #2}%                                                year
  {%
-  {\color{color1}\vspace{-.3cm}\bfseries#3}%                                 title
+  {\color{color1}\vspace{-3mm}\bfseries#3}%                                  title
   \ifthenelse{\equal{#4}{}}{}{\newline {\textebf{#4}}}%                      employer
   \ifthenelse{\equal{#5}{}}{}{ | \inserturl{#5}}%                            website
   \strut%
@@ -83,7 +83,7 @@
 % >>>
 
 % <<< Lengths
-\setlength\hintscolumnwidth{2.4cm}
+\setlength\hintscolumnwidth{24mm}
 % >>>
 % >>>
 
@@ -166,7 +166,7 @@
 
 \IfSubStr{\jobname}{\detokenize{noemail}}{}{\email{\dotEnvEmail}}
 \IfSubStr{\jobname}{\detokenize{nophone}}{}{\phone[mobile]{\dotEnvPhone}}
-\IfSubStr{\jobname}{\detokenize{nophoto}}{}{\photo[2cm][2px]{img/me}}
+\IfSubStr{\jobname}{\detokenize{nophoto}}{}{\photo[20mm][2px]{img/me}}
 
 \social[linkedin][linkedin.com/in/Andy3153]{linkedin.com/in/Andy3153}
 \social[github]  [github.com/Andy3153]     {github.com/Andy3153}
@@ -448,7 +448,7 @@
   {English}
   {%
    \begin{minipage}[t]{\linewidth}
-    \vspace{-.3cm}
+    \vspace{-3mm}
     \textebf{Listening:}          C1 |
     \textebf{Reading:}            C2 |
     \textebf{Writing:}            C2 \newline
