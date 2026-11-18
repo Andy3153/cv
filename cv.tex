@@ -139,12 +139,12 @@
 % >>>
 
 % <<< CV certificate entry
-% Usage: \cventry{<year>}{<title>}{<employer>}{<website>}{<city>}{<country>}{<description>}
+% Usage: \cventry{<year>}{<title>}{<certificate authority>}{<website>}{<description>}
 \newcommand*\cvcertentry[8][.25em]{%
- \cvitem[#1]{\scriptsize #2}%                                                       year
+ \cvitem[#1]{\scriptsize #2}%                                                year
  {%
-  {\color{color1}\vspace{-3mm}\bfseries#3}%                                   title
-  \ifthenelse{\equal{#4}{}}{}{\small\ -- #4}%                                employer
+  {\color{color1}\vspace{-3mm}\bfseries#3}%                                  title
+  \ifthenelse{\equal{#4}{}}{}{\small\ -- #4}%                                certificate authority
   \ifthenelse{\equal{#5}{}}{}{\small\ | \inserturl{#5}}%                     website
   \strut%
   \ifx&#8&%
@@ -261,7 +261,7 @@
  % <<< Cisco Certified Network Associate
  \cvcertentry
   {03/2025 -- Present} %{14/03/2025 - 12/2026}
-  {Cisco Certified Network Associate (CCNA)}
+  {Cisco Certified Network Associate}
   {Hackademy}
   {https://hackademy.ro}
   {Bucharest}
@@ -340,15 +340,6 @@
  \cvcertentry
   {05/2022} %{05/05/2022}
   {NDG Linux Essentials}
-  {Network Development Group}
-  {https://netdevgroup.com}
-  {}{}{}
- % >>>
-
- % <<< NDG Linux Unhatched
- \cvcertentry
-  {08/2021} %{19/08/2021}
-  {NDG Linux Unhatched}
   {Network Development Group}
   {https://netdevgroup.com}
   {}{}{}
