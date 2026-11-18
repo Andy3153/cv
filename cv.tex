@@ -18,7 +18,7 @@
 % https://mirrors.nxthost.com/ctan/macros/latex/contrib/moderncv/manual/moderncv_userguide.pdf
 \documentclass[
  a4paper, % paper size of 297 × 210 mm
- 11pt,    % font size of 11pt
+ 10pt,    % font size of 10pt
  roman    % font style of `serif`
 ]{moderncv}
 % >>>
@@ -91,7 +91,7 @@
 % >>>
 
 % <<< Lengths
-\setlength\hintscolumnwidth{24mm}
+\setlength\hintscolumnwidth{6.35em}
 % >>>
 % >>>
 
@@ -136,6 +136,21 @@
 
 % <<< Extrabold
 \newcommand\textebf[2][0.2]{\begingroup\bfseries#2\endgroup}
+% >>>
+
+% <<< CV certificate entry
+% Usage: \cventry{<year>}{<title>}{<employer>}{<website>}{<city>}{<country>}{<description>}
+\newcommand*\cvcertentry[8][.25em]{%
+ \cvitem[#1]{\scriptsize #2}%                                                       year
+ {%
+  {\color{color1}\vspace{-3mm}\bfseries#3}%                                   title
+  \ifthenelse{\equal{#4}{}}{}{\small\ -- #4}%                                employer
+  \ifthenelse{\equal{#5}{}}{}{\small\ | \inserturl{#5}}%                     website
+  \strut%
+  \ifx&#8&%
+  \else{\newline{}\begin{minipage}[t]{\linewidth}\small#8\end{minipage}}\fi% description
+ }
+}
 % >>>
 % >>>
 
@@ -193,12 +208,13 @@
  % <<< Document content
  % <<< Summary
  \begin{center}
+ \vspace{-4ex}
   \begin{minipage}[t]{.9\textwidth} % overfulls without `.8\linewidth`
    \centering\slshape
-   Self-taught Systems Engineer and Robotics Engineering Graduate focused on network/server management, Linux, NixOS, Docker and shell/Python automation. Hands-on experience in industrial PLC automation and web development.
+   Self-taught Systems Administrator and Robotics Engineering Graduate focused on network/server management, Linux, NixOS, Docker and shell/Python automation. Hands-on experience in industrial PLC automation and web development.
   \end{minipage}
  \end{center}
- \vspace{.01\textheight}
+ \vspace{-1ex}
  % >>>
 
  % <<< Work Experience
@@ -243,7 +259,7 @@
  % <<< Certifications
  \section{Certifications}
  % <<< Cisco Certified Network Associate
- \cventry
+ \cvcertentry
   {03/2025 -- Present} %{14/03/2025 - 12/2026}
   {Cisco Certified Network Associate (CCNA)}
   {Hackademy}
@@ -258,7 +274,7 @@
  % >>>
 
  % <<< Industrial Cybersecurity Essentials
- \cventry
+ \cvcertentry
   {07/2026} %{31/07/2026}
   {Industrial Cybersecurity Essentials}
   {Cisco Networking Academy}
@@ -267,7 +283,7 @@
  % >>>
 
  % <<< Industrial Networking Essentials
- \cventry
+ \cvcertentry
   {07/2026} %{31/07/2026}
   {Industrial Networking Essentials}
   {Cisco Networking Academy}
@@ -276,7 +292,7 @@
  % >>>
 
  % <<< Industrial IoT and Control Systems in Manufacturing
- \cventry
+ \cvcertentry
   {07/2026} %{31/07/2026}
   {Industrial IoT and Control Systems in Manufacturing}
   {Cisco Networking Academy}
@@ -285,7 +301,7 @@
  % >>>
 
  % <<< Industrial IoT and Control Systems in Energy
- \cventry
+ \cvcertentry
   {07/2026} %{31/07/2026}
   {Industrial IoT and Control Systems in Energy}
   {Cisco Networking Academy}
@@ -294,7 +310,7 @@
  % >>>
 
  % <<< Introduction to IoT and Digital Transformation
- \cventry
+ \cvcertentry
   {07/2026} %{31/07/2026}
   {Introduction to IoT and Digital Transformation}
   {Cisco Networking Academy}
@@ -303,7 +319,7 @@
  % >>>
 
  % <<< Python Essentials 1
- \cventry
+ \cvcertentry
   {07/2026} %{31/07/2026}
   {Python Essentials 1}
   {Cisco Networking Academy}
@@ -312,7 +328,7 @@
  % >>>
 
  % <<< JavaScript Essentials 1
- \cventry
+ \cvcertentry
   {07/2026} %{31/07/2026}
   {JavaScript Essentials 1}
   {Cisco Networking Academy}
@@ -321,7 +337,7 @@
  % >>>
 
  % <<< NDG Linux Essentials
- \cventry
+ \cvcertentry
   {05/2022} %{05/05/2022}
   {NDG Linux Essentials}
   {Network Development Group}
@@ -330,7 +346,7 @@
  % >>>
 
  % <<< NDG Linux Unhatched
- \cventry
+ \cvcertentry
   {08/2021} %{19/08/2021}
   {NDG Linux Unhatched}
   {Network Development Group}
@@ -389,10 +405,10 @@
 
  % <<< Projects
  \section{Projects}
- % <<< Systems Engineering & Self-Hosted Infrastructure
+ % <<< Systems Administration & Self-Hosted Infrastructure
  \cventry
   {Present}
-  {Systems Engineering \& Self-Hosted Infrastructure}
+  {Systems Administration \& Self-Hosted Infrastructure}
   {}{}{}{}
   {
    \begin{itemize}
